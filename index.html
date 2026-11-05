@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Semana 3 - Bases de datos, codificación y servicios web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            padding: 0;
+            margin: 0;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Partículas flotantes animadas */
+        .floating-particles {
+            display: none;
+        }
+
+        .particle {
+            position: absolute;
+            font-size: 20px;
+            opacity: 0.15;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        .particle:nth-child(1) {
+            left: 10%;
+            animation-delay: 0s;
+            top: 20%;
+        }
+
+        .particle:nth-child(2) {
+            left: 20%;
+            animation-delay: 2s;
+            top: 60%;
+        }
+
+        .particle:nth-child(3) {
+            left: 30%;
+            animation-delay: 4s;
+            top: 80%;
+        }
+
+        .particle:nth-child(4) {
+            left: 50%;
+            animation-delay: 1s;
+            top: 40%;
+        }
+
+        .particle:nth-child(5) {
+            left: 70%;
+            animation-delay: 3s;
+            top: 70%;
+        }
+
+        .particle:nth-child(6) {
+            left: 80%;
+            animation-delay: 5s;
+            top: 30%;
+        }
+
+        .particle:nth-child(7) {
+            left: 90%;
+            animation-delay: 2.5s;
+            top: 50%;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.15;
+            }
+
+            25% {
+                transform: translateY(-30px) rotate(90deg);
+                opacity: 0.25;
+            }
+
+            50% {
+                transform: translateY(-60px) rotate(180deg);
+                opacity: 0.15;
+            }
+
+            75% {
+                transform: translateY(-30px) rotate(270deg);
+                opacity: 0.25;
+            }
+        }
+
+        .session-container {
+            width: 100%;
+            margin: 0;
+            background: #ffffff;
+            border-radius: 0;
+            overflow: visible;
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-accent {
+            height: 5px;
+            background: linear-gradient(90deg, #39a900, #4cd137, #39a900, #4cd137);
+            background-size: 400% 100%;
+            animation: gradientFlow 4s ease infinite;
+        }
+
+        @keyframes gradientFlow {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #003d5c 0%, #00597a 50%, #003d5c 100%);
+            padding: 4px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        /* Efecto de código en movimiento en el header */
+        .header-section::before {
+            content: '{ } < /> [ ] ( ) ; : = + - * / % & | ! ? # $ @';
+            position: absolute;
+            top: 50%;
+            left: -100%;
+            right: -100%;
+            font-family: 'Courier New', monospace;
+            font-size: 40px;
+            color: rgba(57, 169, 0, 0.08);
+            white-space: nowrap;
+            animation: scrollCode 20s linear infinite;
+            transform: translateY(-50%);
+        }
+
+        @keyframes scrollCode {
+            from {
+                left: -100%;
+            }
+
+            to {
+                left: 100%;
+            }
+        }
+
+        .header-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-section h1 {
+            color: #fff;
+            font-size: clamp(1.05rem, 2.5vw, 1.45rem);
+            font-weight: 700;
+            margin: 0;
+            animation: slideIn 0.8s ease-out 0.2s both;
+            line-height: 1.2;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .header-section h1 .code-tag {
+            color: #39a900;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 10px rgba(57, 169, 0, 0.5);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.7;
+            }
+        }
+
+        .header-section .subtitle {
+            color: #a4b0be;
+            font-size: clamp(0.72rem, 1.6vw, 0.85rem);
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            animation: slideIn 0.8s ease-out 0.4s both;
+        }
+
+        .date-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: linear-gradient(135deg, #39a900, #4cd137);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 18px;
+            font-weight: 600;
+            box-shadow: 0 3px 12px rgba(57, 169, 0, 0.4);
+            animation: bounceIn 0.8s ease-out 0.6s both;
+            font-size: 0.72rem;
+            white-space: nowrap;
+        }
+
+        @keyframes bounceIn {
+            0% {
+                transform: scale(0);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            padding: 4px 0 6px 0;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 6px 0 0 0;
+        }
+
+        @media (min-width: 768px) {
+            .content-grid {
+                grid-template-columns: 1.45fr 1fr;
+                padding: 6px 20px;
+                align-items: start;
+                gap: 18px;
+            }
+        }
+
+        .main-content {
+            padding: 0 20px;
+        }
+
+        @media (min-width: 768px) {
+            .main-content {
+                padding: 0;
+            }
+        }
+
+        .main-content h3,
+        .sidebar h3 {
+            color: #003d5c;
+            font-size: 0.9rem;
+            margin-bottom: 6px;
+            padding-left: 8px;
+            border-left: 4px solid #39a900;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        .greeting {
+            color: #4a5568;
+            line-height: 1.38;
+            margin-bottom: 8px;
+            font-size: 0.84rem;
+        }
+
+        .greeting strong {
+            color: #003d5c;
+        }
+
+        .evidence-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .evidence-item {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            border-left: 4px solid #39a900;
+            padding: 5px 10px;
+            border-radius: 6px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+            animation: slideInLeft 0.6s ease-out;
+            animation-fill-mode: both;
+            min-height: fit-content;
+        }
+
+        .evidence-item:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .evidence-item:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .evidence-item:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+
+        .evidence-item:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+
+        .evidence-item:nth-child(5) {
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .evidence-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(57, 169, 0, 0.08), transparent);
+            transition: width 0.4s ease;
+            z-index: 0;
+        }
+
+        .evidence-item:hover {
+            transform: translateX(6px);
+            box-shadow: 0 4px 15px rgba(57, 169, 0, 0.18);
+            border-left-width: 6px;
+        }
+
+        .evidence-item:hover::before {
+            width: 100%;
+        }
+
+        .evidence-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .evidence-icon {
+            background: linear-gradient(135deg, #39a900, #4cd137);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            box-shadow: 0 2px 6px rgba(57, 169, 0, 0.25);
+            transition: all 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .evidence-item:hover .evidence-icon {
+            transform: scale(1.1);
+        }
+
+        .evidence-content {
+            flex: 1;
+            min-width: 0;
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .evidence-left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+            min-width: 155px;
+        }
+
+        .evidence-code {
+            font-weight: 700;
+            color: #003d5c;
+            font-size: 0.73rem;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+
+        .evidence-dates {
+            font-size: 0.67rem;
+            color: #636e72;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            line-height: 1.1;
+        }
+
+        .evidence-description {
+            color: #2d3436;
+            line-height: 1.25;
+            font-size: 0.78rem;
+        }
+
+        /* Si la pantalla es pequeña, apilar código y descripción */
+        @media (max-width: 1100px) {
+            .evidence-content {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .evidence-left-column {
+                min-width: 100%;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+        }
+
+        .evidence-dates i {
+            color: #39a900;
+        }
+
+        /* Material de formación - Sección encima de la quote */
+        .material-section {
+            background: #f8f9fa;
+            padding: 4px 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .material-wrapper {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        .material-box {
+            background: linear-gradient(135deg, #fff9e6, #fffbf0);
+            border: 1.5px solid #ffd700;
+            border-radius: 8px;
+            padding: 5px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(255, 215, 0, 0.15);
+            animation: fadeIn 0.8s ease-out 0.8s both;
+            transition: all 0.3s ease;
+        }
+
+        .material-box:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(255, 215, 0, 0.25);
+        }
+
+        .material-box i {
+            color: #f39c12;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .material-box strong {
+            color: #e67e22;
+            font-size: 0.82rem;
+        }
+
+        .material-box-text {
+            color: #2c3e50;
+            font-size: 0.78rem;
+            line-height: 1.35;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            padding: 0;
+        }
+
+        @media (min-width: 768px) {
+            .sidebar {
+                align-self: stretch;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .sidebar {
+                padding: 0 20px;
+            }
+        }
+
+        .sidebar-illustration-box {
+            text-align: center;
+            margin-top: 4px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar .evidence-left-column {
+            min-width: 110px;
+        }
+
+        .sidebar-image {
+            width: 72%;
+            max-width: 300px;
+            max-height: 220px;
+            height: auto;
+            object-fit: contain;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar-image:hover {
+            transform: scale(1.04) rotate(1deg);
+        }
+
+        .meeting-card {
+            background: linear-gradient(135deg, #003d5c 0%, #00597a 100%);
+            padding: 10px 18px;
+            border-radius: 10px;
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 61, 92, 0.35);
+            position: relative;
+            overflow: hidden;
+            animation: slideInLeft 0.8s ease-out 0.4s both;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Efecto de ondas en la tarjeta de reunión */
+        .meeting-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(57, 169, 0, 0.1) 0%, transparent 70%);
+            animation: ripple 4s linear infinite;
+        }
+
+        @keyframes ripple {
+            0% {
+                transform: scale(0.8);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .meeting-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meeting-card h3 {
+            font-size: 0.95rem;
+            margin: 0;
+            padding: 0;
+            border: none;
+            color: white;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meeting-icon {
+            font-size: 1.1rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .meeting-time {
+            font-size: 1.45rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(45deg, #39a900, #4cd137, #39a900);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 20px rgba(57, 169, 0, 0.4);
+            animation: gradientText 3s ease infinite;
+            position: relative;
+            z-index: 1;
+            line-height: 1;
+        }
+
+        @keyframes gradientText {
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .meeting-description {
+            color: #cbd5e0;
+            margin: 0;
+            font-size: 0.8rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .meeting-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: linear-gradient(135deg, #39a900, #4cd137);
+            color: white;
+            padding: 7px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.82rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 14px rgba(57, 169, 0, 0.4);
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .meeting-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .meeting-btn:hover::before {
+            width: 250px;
+            height: 250px;
+        }
+
+        .meeting-btn:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 25px rgba(57, 169, 0, 0.5);
+        }
+
+        .meeting-btn i {
+            font-size: 0.95rem;
+            animation: arrowMove 1.5s ease-in-out infinite;
+        }
+
+        @keyframes arrowMove {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(4px);
+            }
+        }
+
+        .quote-section {
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.85) 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><rect fill="%23f4e7d7" width="100" height="100"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23e6d4b8" stroke-width="0.5" opacity="0.3"/></svg>');
+            background-color: #f4e7d7;
+            padding: 6px 30px;
+            border-radius: 0;
+            text-align: center;
+            font-style: italic;
+            box-shadow:
+                inset 0 2px 6px rgba(0, 0, 0, 0.06),
+                inset 0 -2px 6px rgba(0, 0, 0, 0.06);
+            animation: fadeIn 1s ease-out 0.8s both;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .quote-section {
+                padding: 8px 15px;
+            }
+        }
+
+        /* Textura de papiro antiguo */
+        .quote-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 90, 43, 0.03) 2px,
+                    rgba(139, 90, 43, 0.03) 3px),
+                repeating-linear-gradient(90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(139, 90, 43, 0.02) 2px,
+                    rgba(139, 90, 43, 0.02) 3px);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .quote-content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .quote-main-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: nowrap;
+            width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .quote-main-wrapper {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        .quote-text-wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .quote-text {
+            position: relative;
+            color: #2d3436;
+            font-size: 0.88rem;
+            margin: 0;
+            line-height: 1.25;
+            font-family: 'Georgia', 'Times New Roman', serif;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.05);
+            font-style: italic;
+            background: linear-gradient(to right, #003d5c 0%, #003d5c 100%);
+            background-size: 0% 100%;
+            background-repeat: no-repeat;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: writeTextLoop 6s ease-in-out infinite;
+        }
+
+        @keyframes writeTextLoop {
+            0% {
+                background-size: 0% 100%;
+            }
+
+            50% {
+                background-size: 100% 100%;
+            }
+
+            100% {
+                background-size: 100% 100%;
+            }
+        }
+
+        .quote-author-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .quote-author {
+            position: relative;
+            color: #5a5a5a;
+            font-size: 0.82rem;
+            font-style: normal;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 0 2px 8px;
+            border-left: 3px solid #39a900;
+            white-space: nowrap;
+        }
+
+        .quote-author::before {
+            content: '— ';
+            color: #39a900;
+            font-weight: bold;
+            font-size: 0.88rem;
+        }
+
+        /* Decoración con diamantes */
+        .quote-flourish {
+            margin: 3px 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #39a900, transparent);
+            position: relative;
+        }
+
+        .quote-flourish::before,
+        .quote-flourish::after {
+            content: '◆';
+            position: absolute;
+            color: #39a900;
+            font-size: 0.55rem;
+            top: -4px;
+            text-shadow: 0 0 5px rgba(57, 169, 0, 0.3);
+        }
+
+        .quote-flourish::before {
+            left: -12px;
+        }
+
+        .quote-flourish::after {
+            right: -12px;
+        }
+
+        /* Contenedor de la imagen de pluma escribiendo */
+        .quote-image-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 768px) {
+            .quote-image-container {
+                display: none;
+            }
+        }
+
+        .writing-pen-illustration {
+            width: 32px;
+            height: 32px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .feather-emoji {
+            font-size: 1.7rem;
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.2));
+            animation: penWiggle 3s ease-in-out infinite;
+            display: block;
+        }
+
+        @keyframes penWiggle {
+
+            0%,
+            100% {
+                transform: rotate(-8deg) translateY(0);
+            }
+
+            50% {
+                transform: rotate(-12deg) translateY(-4px);
+            }
+        }
+
+        .footer {
+            background: linear-gradient(135deg, #003d5c 0%, #00597a 100%);
+            padding: 4px 25px;
+            text-align: center;
+            color: white;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer .name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #39a900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+        }
+
+        .footer .role {
+            display: none;
+        }
+
+        @media (max-width: 767px) {
+            .content-grid {
+                padding: 10px 12px;
+            }
+
+            .header-section {
+                padding: 10px 12px;
+            }
+
+            .meeting-card {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .meeting-info {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 61, 92, 0.08);
+            color: #003d5c;
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-size: 0.92em;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Partículas flotantes -->
+    <div class="floating-particles">
+        <div class="particle">{ }</div>
+        <div class="particle">&lt;/&gt;</div>
+        <div class="particle">[ ]</div>
+        <div class="particle">( )</div>
+        <div class="particle">===</div>
+        <div class="particle">{ }</div>
+        <div class="particle">&lt;/&gt;</div>
+    </div>
+
+    <div class="session-container">
+        <div class="header-accent"></div>
+
+        <div class="header-section">
+            <div class="header-title-row">
+                <h1><span class="code-tag">&lt;</span>Sesión 6<span class="code-tag">/&gt;</span> &nbsp; Programación Frontend - React</h1>
+                <div class="date-badge">
+                    <i class="fas fa-calendar-alt"></i>
+                  9 de noviembre de 2026
+              </div>
+            </div>
+            <p class="subtitle">Fase de Ejecución</p>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="content-grid">
+                <div class="main-content">
+                    <p class="greeting">
+                        Cordial saludo, apreciados aprendices. Esta semana avanzaremos en la construcción de la solución de software.<br>
+                        <strong>Objetivo y temas clave:</strong> Desarrollar interfaces de usuario con React JS mediante la creación y reutilización de componentes, implementación de JSX y manejo de datos y propiedades (Props). Aplicar conceptos fundamentales para estructurar aplicaciones web dinámicas, organizadas y reutilizables, fortaleciendo las habilidades de desarrollo frontend.
+                    </p>
+
+                    <h3>
+                        <i class="fas fa-clipboard-list"></i>
+                        Actividades y evidencias de la semana
+                    </h3>
+
+                    <div class="evidence-list">
+                        <div class="evidence-item">
+                            <div class="evidence-header">
+                                <div class="evidence-icon"><i class="fa-brands fa-react"></i></div>
+                                <div class="evidence-content">
+                                    <div class="evidence-left-column">
+                                        <div class="evidence-code">GA7-220501096-AA4-EV01.</div>
+                                        <div class="evidence-dates">
+                                            <i class="fas fa-clock"></i>
+                                            <strong>Inicio:</strong> 9/11/26 • <strong>Finaliza:</strong> 16/11/26
+                                        </div>
+                                    </div>
+                                    <div class="evidence-description">Taller sobre componentes front-end.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="evidence-item">
+                            <div class="evidence-header">
+                                <div class="evidence-icon"><i class="fas fa-file-code"></i></div>
+                                <div class="evidence-content">
+                                    <div class="evidence-left-column">
+                                        <div class="evidence-code">GA6-220501096-AA2-EV03</div>
+                                        
+                                      <div class="evidence-dates">
+                                            <i class="fas fa-clock"></i>
+                                            <strong>Inicio:</strong> 9/11/26 • <strong>Finaliza:</strong> 16/11/26
+                                      </div>
+                                    </div>
+                                    <div class="evidence-description">Verificación de procedimientos para la definición de componentes front-end de la aplicación.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="evidence-item">
+                            <div class="evidence-header">
+                                <div class="evidence-icon"><i class="fa-solid fa-code"></i></div>
+                                <div class="evidence-content">
+                                    <div class="evidence-left-column">
+                                        <div class="evidence-code">GA7-220501096-AA2-EV02</div>
+                                        <div class="evidence-dates">
+                                            <i class="fas fa-clock"></i>
+                                            <strong>Inicio:</strong> 9/11/26 • <strong>Finaliza:</strong> 16/11/26
+                                      </div>
+                                    </div>
+                                    <div class="evidence-description">Componente front-end del proyecto formativo y proyectos de clase.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="evidence-item">
+                            <div class="evidence-header">
+                                <div class="evidence-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div class="evidence-content">
+                                    <div class="evidence-left-column">
+                                        <div class="evidence-code">GA8-220501096-AA1-EV01</div>
+                                        <div class="evidence-dates">
+                                            <i class="fas fa-clock"></i>
+                                            <strong>Inicio:</strong> 9/11/26 • <strong>Finaliza:</strong> 16/11/26
+                                      </div>
+                                    </div>
+                                    <div class="evidence-description">Desarrollar software a partir de la integración de sus módulos componentes.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="evidence-item">
+                            <div class="evidence-header">
+                                <div class="evidence-icon"><i class="fa-brands fa-git-alt"></i></div>
+                                <div class="evidence-content">
+                                    <div class="evidence-left-column">
+                                        <div class="evidence-code">GA8-220501096-AA1-EV02</div>
+                                        <div class="evidence-dates">
+                                            <i class="fas fa-clock"></i>
+                                            <strong>Inicio:</strong> 9/11/26 • <strong>Finaliza:</strong> 16/11/26
+                                      </div>
+                                    </div>
+                                    <div class="evidence-description">Módulos integrados.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                    <div class="meeting-card">
+                        <div class="meeting-info">
+                            <h3>
+                                <i class="fas fa-video meeting-icon"></i>
+                                Únete a la sesión
+                            </h3>
+                            <div class="meeting-time">5:00 PM</div>
+                            <p class="meeting-description">Te esperamos en Microsoft Teams</p>
+                        </div>
+                        <a href="https://teams.microsoft.com/meet/272208353867586?p=711HEN0X1MY6RpFQCJ" target="_blank"
+                            class="meeting-btn" rel="noreferrer noopener">
+                            <span>Ingresar ahora</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+              </div>
+
+                <div class="sidebar">
+                    <div>
+                        <h3>
+                            <i class="fas fa-bullseye"></i>
+                            Competencias y resultados de aprendizaje
+                        </h3>
+
+                        <div class="evidence-list">
+                            <div class="evidence-item">
+                                <div class="evidence-header">
+                                    <div class="evidence-icon"><i class="fas fa-database"></i></div>
+                                    <div class="evidence-content">
+                                        <div class="evidence-left-column">
+                                            <div class="evidence-code">RA 220501096-03</div>
+                                        </div>
+                                        <div class="evidence-description">Crear componentes front-end del software de acuerdo con el diseño.</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="evidence-item">
+                                <div class="evidence-header">
+                                    <div class="evidence-icon"><i class="fas fa-code"></i></div>
+                                    <div class="evidence-content">
+                                        <div class="evidence-left-column">
+                                            <div class="evidence-code">RA 220501096-04</div>
+                                        </div>
+                                        <div class="evidence-description">Codificar el software de acuerdo con el diseño establecido.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="sidebar-illustration-box">
+						
+                        <img src="https://drive.google.com/thumbnail?id=1y7ce_vi0x4z_FlfjnwuOZXoJabUis3l9&sz=w1000"
+                            alt="Programación Web" class="sidebar-image">
+                        <p style="font-size: 0.68rem; color: #666; margin-top: 4px; margin-bottom: 0;">
+                            Imagen SENA&nbsp; - <a href="https://www.sena.edu.co/" target="_blank"
+                                style="color: #39a900; text-decoration: none;">www.sena.edu.co</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Material de formación -->
+        <div class="material-section">
+            <div class="material-wrapper">
+                <div class="material-box">
+                    <i class="fas fa-book-open"></i>
+                    <div class="material-box-text">
+                        <strong>Material de formación (Guía 7):</strong> Desarrollo de aplicaciones web con Java, Construcción API y Servicios web con PHP.<br>
+						<strong>Material de formación (Guía 8):</strong> Construcción aplicación web, Construir aplicativo según las características de la arquitectura Android, Tecnologías emergentes y disruptivas.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quote-section">
+            <div class="quote-content">
+                <div class="quote-main-wrapper">
+                    <div class="quote-text-wrapper">
+                        <p class="quote-text">Si programas, eres diseñador de API</p>
+                        <div class="quote-flourish"></div>
+                    </div>
+                    <div class="quote-image-container">
+                        <div class="writing-pen-illustration">
+                            <span class="feather-emoji">🪶</span>
+                        </div>
+                    </div>
+                    <div class="quote-author-wrapper">
+                        <div class="quote-author">&nbsp;Joshua Bloch</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="header-accent"></div>
+
+        <div class="footer">
+            <p class="name">
+                <i class="fas fa-user-tie"></i>
+                Fabián Alexander García Martínez
+            </p>
+            <p class="role">Instructor Técnico - Vocero</p>
+        </div>
+
+        <div class="header-accent"></div>
+    </div>
+</body>
+
+</html>
